@@ -1,0 +1,62 @@
+body {
+    margin: 0
+
+}
+.grid-container {
+    background-color: antiquewhite;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    max-width:450px;
+    margin: 20px auto;
+    border-radius: 12px;
+}
+header {
+    grid-column: span 3;
+    font-size: 65px;
+    padding:20px;
+}
+
+main  {
+    display:grid;
+    grid-column: span 3;
+    grid-template-columns: 1fr 1fr;
+    background-color: darkseagreen;
+    border-radius: 12px;
+}
+
+button, .clearBtn {
+    padding: 28px;
+    border-radius: 58px;
+    width: 98px;
+    font-size: 28px;
+    border: none;
+    cursor: pointer;
+}
+
+.digits {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
+    padding: 10px;
+    justify-items: center;
+}
+.operatorSymbol {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 10px;
+    padding: 10px;
+    justify-items: center;
+}
+
+.noClick {
+    pointer-events: none;
+}
+
+.operatorSymbol button {
+    grid-template-columns: 1fr;
+    grid-gap: 10px;
+    justify-items: center;
+    padding: 15px;
+    border-radius: 9px;
+    font-size: 39px;
+}
