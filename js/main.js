@@ -1,5 +1,5 @@
 //getValue of Digits
-const leftOperand = document.querySelector('.leftOperand');
+const getLeftOperand = document.querySelector('.leftOperand');
 const rightPos = document.querySelector('.rightPos');
 const getSum = document.querySelector('.sum');
 const getSymbols = document.querySelectorAll('.symbol');
@@ -7,52 +7,65 @@ const selectDigit = document.querySelectorAll('.numbersBtn');
 const equalBtn = document.getElementById('equal');
 const getOperator = document.querySelector('.operator');
 const clearAll = document.getElementById('clearAll');
-
-let addTotal = [];
+//Arrays
 let leftOperandArr = [];
-const previousOperand = [];
+let previousOperandArr = [];
 let operatorArr =[];
-let clickCount = 0;
+let rightOperandArr = [];
+const clearArrays = () => {
+    leftOperandArr = [];
+    previousOperandArr = [];
+    operatorArr =[];
+    rightOperandArr = [];
+}
 
+let clickCount = 0;
 //clear function
 clearAll.addEventListener("click", ()=>{
     for (let x of selectDigit) {
         x.classList.remove('noClick');
     }
-    leftOperand.innerHTML = "0";
+    getLeftOperand.innerHTML = "0";
     rightPos.innerHTML = "";
     getSum.innerHTML = '';
-    clickCount = 0;
-
 })
 
 //get you digits function
 const getOperand = () => {
     selectDigit.forEach(digit =>{
         digit.addEventListener('click',(e) =>{
+            const getOperator = e.target.innerHTML;
             const value = parseInt(e.target.innerHTML, 10);
             getSum.innerHTML = '';
             //checks to see if the value is a number or not
             if(isNaN(value) === true) {
                 const total = leftOperandArr.join('')//join elements in array
-                previousOperand.push(total);
+                previousOperandArr.push(total);
                 console.log('this is the value',value)
-                leftOperand.innerHTML = '';
+                getLeftOperand.innerHTML = '';
                 leftOperandArr = [];
-                switch(value) {
+                switch(getOperator) {
                     case '+':
-                        operatorArr.push(value);
-                        console.log('this is the +',value)
+                        operatorArr.push(getOperator);
+                        console.log('this is the +',getOperator)
                         break;
-                    case'-':
-                        operatorArr.push(value);
-                        console.log('this is the -',value)
+                    case '-':
+                        operatorArr.push(getOperator);
+                        console.log('this is the -',getOperator)
+                        break;
+                    case '*':
+                        operatorArr.push(getOperator);
+                        console.log('this is the *',getOperator)
+                        break;
+                    case '/':
+                        operatorArr.push(getOperator);
+                        console.log('this is the /',getOperator)
                         break;
                 }
             }else{
                 leftOperandArr.push(value);
-                leftOperand.append(`${value}`);
-                console.log('pushed to array')
+                getLeftOperand.append(`${value}`);
+                console.log('else right')
             }
 
             if(clickCount > 10) {
@@ -66,35 +79,38 @@ const getOperand = () => {
 }
 getOperand();
 //Equation Button
-// equalBtn.addEventListener("click",()=>{
-//     const secondGrab = leftOperand.innerHTML;
-//     addTotal.push(`${secondGrab}`);
-//     let operand1 = parseInt(addTotal[0],10) ;
-//     let operand2 = parseInt(addTotal[1], 10);
-//     const finalTotal =  operand1 + operand2;
-//      console.log(finalTotal);
-//     console.log('test',operand1 + 1);
-//     leftOperand.innerHTML = `${finalTotal}`
-// })
-//click Operator Buttons
-// getSymbols.forEach(sym => {
-//     sym.addEventListener('click',(e)=>{
-//         const valueCnt = leftOperand.innerHTML;
-//         switch(e.target.innerHTML) {
-//             case "+":
-//                 addTotal.push(valueCnt);
-//                 if(leftOperand.innerHTML === ''){
-//                     console.log('empty')
-//                 }else{
-//
-//                 }
-//                 console.log("The operator is currently","+")
-//                 console.log(addTotal)
-//                 break;
-//             case "-":
-//                 addTotal.push(valueCnt)
-//                 console.log("The operator is currently","-")
-//         }
-//     })
-// });
+const calculateEquation = (leftOperand,operator,rightOperand) => {
+    const totalAddition = parseInt(leftOperand) + parseInt(rightOperand);
+    const totalSubtraction = parseInt(leftOperand) - parseInt(rightOperand);
+    const totalMultiply = parseInt(leftOperand) * parseInt(rightOperand);
+    const totalDivision = parseInt(leftOperand) / parseInt(rightOperand);
+    switch(operator){
+        case '+':
+            getLeftOperand.innerHTML = "";
+            getSum.innerHTML = `${totalAddition}`;
+            clearArrays();
+            break;
+        case '-':
+            getLeftOperand.innerHTML = "";
+            getSum.innerHTML = `${totalSubtraction}`;
+            clearArrays();
+            break;
+        case '*':
+            getLeftOperand.innerHTML = "";
+            getSum.innerHTML = `${totalMultiply}`;
+            clearArrays();
+            break;
+        case '/':
+            getLeftOperand.innerHTML = "";
+            getSum.innerHTML = `${totalDivision}`;
+            clearArrays();
+            break;
+    }
+}
+equalBtn.addEventListener("click",()=>{
+    const totalLeft = leftOperandArr.join('');
+    rightOperandArr.push(totalLeft)
+    calculateEquation(previousOperandArr[0],operatorArr[0],rightOperandArr[0]);
+})
+
 
