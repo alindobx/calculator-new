@@ -12,20 +12,20 @@ let leftOperandArr = [];
 let previousOperandArr = [];
 let operatorArr =[];
 let rightOperandArr = [];
+let plusSum = [];
 const clearArrays = () => {
     leftOperandArr = [];
     previousOperandArr = [];
     operatorArr =[];
     rightOperandArr = [];
 }
-
 let clickCount = 0;
 //clear function
 clearAll.addEventListener("click", ()=>{
     for (let x of selectDigit) {
         x.classList.remove('noClick');
     }
-    getLeftOperand.innerHTML = "0";
+    getLeftOperand.innerHTML = "";
     rightPos.innerHTML = "";
     getSum.innerHTML = '';
 })
@@ -36,18 +36,17 @@ const getOperand = () => {
         digit.addEventListener('click',(e) =>{
             const getOperator = e.target.innerHTML;
             const value = parseInt(e.target.innerHTML, 10);
+            plusSum.push(getLeftOperand.innerHTML);
             getSum.innerHTML = '';
             //checks to see if the value is a number or not
             if(isNaN(value) === true) {
                 const total = leftOperandArr.join('')//join elements in array
                 previousOperandArr.push(total);
-                console.log('this is the value',value)
-                getLeftOperand.innerHTML = '';
+                // getLeftOperand.innerHTML = '';
                 leftOperandArr = [];
                 switch(getOperator) {
                     case '+':
                         operatorArr.push(getOperator);
-                        console.log('this is the +',getOperator)
                         break;
                     case '-':
                         operatorArr.push(getOperator);
@@ -65,7 +64,22 @@ const getOperand = () => {
             }else{
                 leftOperandArr.push(value);
                 getLeftOperand.append(`${value}`);
-                console.log('else right')
+                // const runningTotal = parseInt(previousOperandArr[0], 10) + parseInt(leftOperandArr[0], 10);
+                // getLeftOperand.innerHTML = `${runningTotal}`
+                plusSum.pop()
+                const last = plusSum.slice(-1);
+                const lastTotal = parseInt(`${last}`,10)
+                const pre = () => {
+                    let final = 0
+                    for (let char of previousOperandArr) {
+                            final+= parseInt(char,10)
+                    }
+                    return final
+                }
+                // console.log(runningTotal);
+                console.log('Final Total',value + pre());
+                //Display final total in the Sum box
+                getLeftOperand.innerHTML = `${value + pre()}`
             }
 
             if(clickCount > 10) {
